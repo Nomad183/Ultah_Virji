@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Happy Birthday</title>
+<title>SELAMAT HARI JADI OI BLONDE!!!</title>
 <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&display=swap" rel="stylesheet">
 <style>
 :root{--maroon:#5a0f1f;--maroon-d:#2a0710;--pink:#ffc2d4;--cream:#fff1ec;box-sizing:border-box}
@@ -53,9 +53,15 @@ html,body{margin:0;height:100%;overflow:hidden;background:var(--maroon-d);color:
 #sp{position:absolute;inset:0;width:100%;height:100%;z-index:0;pointer-events:none}
 #p4 .big{position:relative;z-index:3;text-align:center;font-size:clamp(46px,14vw,110px)}
 .photo{position:absolute;z-index:2;background:#fff1ec;padding:6px 6px 22px;border-radius:3px;box-shadow:0 4px 18px #0006;opacity:0;pointer-events:none;animation:pfade 4.5s ease-in-out forwards}
-.photo img,.photo .ph{display:block;width:100%;aspect-ratio:1;object-fit:cover}
+.photo img,.photo video,.photo .ph{display:block;width:100%;aspect-ratio:1;object-fit:cover}
+.photo.anim img,.photo.anim video{aspect-ratio:auto;object-fit:contain}
 .ph{background:linear-gradient(135deg,#ffc2d4,#c0476b);display:grid;place-items:center;color:#fff;font:34px Georgia}
-@keyframes pfade{0%{opacity:0;transform:rotate(var(--r)) scale(.92)}50%{opacity:.45;transform:rotate(var(--r)) scale(1)}100%{opacity:0;transform:rotate(var(--r)) scale(1.06)}}
+@keyframes pfade{
+  0%{opacity:0;transform:rotate(var(--r)) scale(.92)}
+  12%{opacity:1;transform:rotate(var(--r)) scale(1)}
+  72%{opacity:1;transform:rotate(var(--r)) scale(1)}
+  100%{opacity:0;transform:rotate(var(--r)) scale(1.04)}
+}
 .wish{position:absolute;top:0;z-index:1;white-space:nowrap;font-family:Georgia,'Times New Roman',serif;letter-spacing:.02em;color:var(--pink);opacity:0;pointer-events:none;text-shadow:0 0 10px #ff8fb166;animation:wfall linear forwards}
 @keyframes wfall{0%{opacity:0;transform:translate(0,-40px) rotate(var(--r))}8%{opacity:.9}45%{opacity:.9}75%{opacity:0}100%{opacity:0;transform:translate(var(--dx),calc(100vh - 80px - env(safe-area-inset-bottom,0px))) rotate(0deg)}}
 #p3 .big,#p3 .msg,#p3 .replay{position:relative;z-index:2}
@@ -69,8 +75,8 @@ html,body{margin:0;height:100%;overflow:hidden;background:var(--maroon-d);color:
 
 <section class="page on" id="p1">
   <div id="tree"><img class="bare" alt="" src="images/bare.webp"><svg id="twigs" viewBox="0 0 900 872"></svg><img class="bloomimg" alt="Sakura tree" src="images/bloom.webp"></div>
-  <h1 class="greet" id="greet">happy birthday</h1>
-  <div class="hint" id="hint">tap the tree</div>
+  <h1 class="greet" id="greet">SELAMAT HARI JADI OI BLONDE!!!</h1>
+  <div class="hint" id="hint">Tap Tap dulu kasi Pupuk</div>
   <div class="corner" id="next" aria-label="Next page">
     <svg width="28" height="28" viewBox="0 0 28 28" fill="none" stroke="#ffc2d4" stroke-width="1.6" stroke-linecap="round"><path d="M5 14h18v9H5zM5 14c3 0 3 2 4.5 2S12 14 14 14s2.500 2 4.500 2S21 14 23 14M14 9v5M14 4c1.500 1.500 1.500 3 0 4-1.500-1-1.500-2.500 0-4z"/></svg>
   </div>
@@ -89,7 +95,7 @@ html,body{margin:0;height:100%;overflow:hidden;background:var(--maroon-d);color:
       <g id="candles"></g>
     </svg>
   </div>
-  <div class="hint" id="hint2">tap the candles to blow them out</div>
+  <div class="hint" id="hint2">Pake Mic atau headset nah, Tiup. kalo nda bisa, coba pake napas (Tap Tap apinya Kampung)</div>
 </section>
 
 <section class="page" id="p3">
@@ -235,21 +241,52 @@ function spLoop(t){
   });
   requestAnimationFrame(spLoop);
 }
+function isMov(f){return /\.(mp4|webm|mov)$/i.test(f)}
+function isGif(f){return /\.gif$/i.test(f)}
+function shuffleP(){for(var i=PHOTOS.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1)),t=PHOTOS[i];PHOTOS[i]=PHOTOS[j];PHOTOS[j]=t}}
 function spawnPhoto(){
-  var w=90+Math.random()*60,h=w+28,tt=$('title4').getBoundingClientRect(),x,y;
+  var src=PHOTOS.length?PHOTOS[pidx++%PHOTOS.length]:null,anim=src&&(isMov(src)||isGif(src));
+  var w=anim?130+Math.random()*70:90+Math.random()*60,h=(anim?w*.6:w)+28,tt=$('title4').getBoundingClientRect(),x,y;
   for(var i=0;i<25;i++){
     x=Math.random()*Math.max(1,innerWidth-w);y=Math.random()*Math.max(1,innerHeight-h);
     if(x+w<tt.left-10||x>tt.right+10||y+h<tt.top-10||y>tt.bottom+10)break;
   }
-  var p=document.createElement('div');p.className='photo';
+  var p=document.createElement('div');p.className='photo'+(anim?' anim':'');
   p.style.cssText='left:'+x+'px;top:'+y+'px;width:'+w+'px;--r:'+(Math.random()*24-12)+'deg';
-  if(PHOTOS.length){var im=document.createElement('img');im.src=PHOTOS[pidx++%PHOTOS.length];im.alt='';p.appendChild(im)}
-  else{var ph=document.createElement('div');ph.className='ph';ph.textContent='\u2665';p.appendChild(ph)}
-  $('p4').appendChild(p);setTimeout(function(){p.remove()},4600);
+  function show(){
+    $('p4').appendChild(p);
+    setTimeout(function(){p.remove()},6100);
+  }
+  if(src&&isMov(src)){
+    var v=document.createElement('video');
+    v.muted=true;v.loop=true;v.autoplay=true;v.playsInline=true;v.preload='auto';
+    v.setAttribute('playsinline','');v.setAttribute('muted','');
+    var videoShown=false;
+    function revealVideo(){
+      if(videoShown)return;
+      videoShown=true;
+      p.appendChild(v);show();
+      var pr=v.play();if(pr&&pr.catch)pr.catch(function(){});
+    }
+    v.addEventListener('loadeddata',revealVideo,{once:true});
+    v.addEventListener('error',function(){
+      if(videoShown)return;
+      var fallback=document.createElement('div');
+      fallback.className='ph';fallback.textContent='♥';p.appendChild(fallback);show();
+    },{once:true});
+    v.src=src;v.load();
+  }
+  else if(src){
+    var im=document.createElement('img');im.alt='';
+    im.onload=function(){p.appendChild(im);show()};
+    im.onerror=function(){var fallback=document.createElement('div');fallback.className='ph';fallback.textContent='♥';p.appendChild(fallback);show()};
+    im.src=src;
+  }
+  else{var ph=document.createElement('div');ph.className='ph';ph.textContent='\u2665';p.appendChild(ph);show()}
 }
 function p4on(on){
   spOn=on;clearInterval(photoTimer);
-  if(on){spSize();if(!spRun){spRun=true;requestAnimationFrame(spLoop)}setTimeout(spawnPhoto,500);photoTimer=setInterval(spawnPhoto,900)}
+  if(on){shuffleP();spSize();if(!spRun){spRun=true;requestAnimationFrame(spLoop)}setTimeout(spawnPhoto,500);photoTimer=setInterval(spawnPhoto,900)}
   else document.querySelectorAll('.photo').forEach(function(p){p.remove()});
 }
 
